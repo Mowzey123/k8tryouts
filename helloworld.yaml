@@ -17,7 +17,7 @@ spec:
     spec:
        containers:
        - name: helloworld
-        image: helloworld:latest
-        ports:
-         - containerPort: 3000
+         image: helloworld:latest
+         ports:
+          - containerPort: 3000
 ---
