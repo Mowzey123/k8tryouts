@@ -8,16 +8,16 @@ metadata:
 spec:
     replicas: 1
     selector:
-    matchLabels:
+      matchLabels:
         app: helloworld
     template:
-    metadata:
+      metadata:
         labels:
-        app: helloworld
+          app: helloworld
     spec:
-        containers:
-        - name: helloworld
+       containers:
+       - name: helloworld
         image: helloworld:latest
         ports:
-            - containerPort: 3000
+         - containerPort: 3000
 ---
