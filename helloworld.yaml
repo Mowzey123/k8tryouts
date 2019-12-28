@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: helloworld-deployment
-    labels:
-    app: helloworld
+  name: datacollection-deployment
+  labels:
+    app: datacollection
 spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        app: helloworld
-    template:
-      metadata:
-        labels:
-          app: helloworld
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datacollection
+  template:
+    metadata:
+      labels:
+        app: datacollection
     spec:
-       containers:
-        - name: helloworld
-          image: helloworld:latest
-          ports:
-           - containerPort: 3000
+      containers:
+      - name: datacollection
+        image: 68.183.219.124:5000/datacollection
+        ports:
+         - containerPort: 4003
 ---
