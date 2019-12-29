@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld-deployment
+  namespace: dev
   labels:
     app: helloworld
 spec:
@@ -25,6 +26,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  namespace: dev
   labels:
     app: nginx
 spec:
