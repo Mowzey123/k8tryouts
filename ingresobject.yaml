@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: dev
+spec:
+  rules:
+  - host: initmatelinestores.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
