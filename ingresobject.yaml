@@ -5,7 +5,7 @@ metadata:
   namespace: dev
 spec:
   rules:
-  - host: initmatelinestores.com
+  - host: k8training.ibunmasood.com
     http:
       paths:
       - backend:
