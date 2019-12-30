@@ -8,6 +8,7 @@ spec:
   - host: www.k8training.ibumasood.com
     http:
       paths:
-      - backend:
-          serviceName: hello-service
-          servicePort: 80
+        path: /
+        - backend:
+            serviceName: hello-service
+            servicePort: 80
