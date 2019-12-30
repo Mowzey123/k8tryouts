@@ -11,3 +11,9 @@ spec:
       - backend:
           serviceName: nginx
           servicePort: 80
+
+
+
+
+
+        #   sets rules for ingress nginx load balancer

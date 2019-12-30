@@ -292,3 +292,8 @@ spec:
       memory: 90Mi
       cpu: 100m
     type: Container
+
+
+
+
+            #   kubernetes nginx controller maintained by kubernetes community
