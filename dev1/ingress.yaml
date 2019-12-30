@@ -5,7 +5,7 @@ metadata:
   namespace: dev
 spec:
   rules:
-  - host: k8training.ibumasood.com
+  - host: www.k8training.ibumasood.com
     http:
       paths:
       - backend:
