@@ -2,10 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test-ingress
-  namespace: ingress-nginx
+  namespace: dev
 spec:
   rules:
-  - host: www.k8training.ibumasood.com
+  - host: k8training.ibumasood.com
     http:
       paths:
       - path: /
