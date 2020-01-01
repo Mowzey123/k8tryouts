@@ -8,7 +8,8 @@ spec:
   - host: k8training.ibunmasood.com
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: nginx
           servicePort: 80
 
