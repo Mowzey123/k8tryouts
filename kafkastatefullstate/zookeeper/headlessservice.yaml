@@ -4,7 +4,7 @@ kind: Service
 metadata:
     name: zk-svc
     labels:
-    app: zk-svc
+    name: zk-svc
 spec:
     ports:
     - name: server
