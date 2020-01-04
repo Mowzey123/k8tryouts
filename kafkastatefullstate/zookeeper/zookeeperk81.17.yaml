@@ -117,7 +117,7 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /var/lib/zookeeper
-          name: datadir
+          name: my-retain-ssd-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -132,7 +132,7 @@ spec:
       annotations:
         volume.beta.kubernetes.io/storage-class: fast
       creationTimestamp: null
-      name: datadir
+      name: my-retain-ssd-storage
     spec:
       accessModes:
       - ReadWriteMany
