@@ -96,14 +96,14 @@ spec:
           initialDelaySeconds: 10
           timeoutSeconds: 5
         volumeMounts:
-        - name: datadir
+        - name: my-retain-ssd-storage
           mountPath: /var/lib/zookeeper
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
   volumeClaimTemplates:
   - metadata:
-      name: datadir
+      name: my-retain-ssd-storage
       annotations:
         volume.beta.kubernetes.io/storage-class: "fast"
     spec:

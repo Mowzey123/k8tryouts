@@ -21,7 +21,7 @@ parameters:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: datadir
+  name: my-retain-ssd-storage
 spec:
   capacity:
     storage: 10Gi
