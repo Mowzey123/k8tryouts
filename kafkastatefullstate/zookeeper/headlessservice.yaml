@@ -7,9 +7,13 @@ metadata:
     app: zk-svc
 spec:
     ports:
-    - port: 2888
-    - port: 3888
+    - name: server
+      port: 2888
+      targetPort: 2888
+    - name: leader-election
+      port: 3888
+      targetPort: 3888
     clusterIP: None
     selector:
-    app: zk
+    role: zk-svc
 ---
