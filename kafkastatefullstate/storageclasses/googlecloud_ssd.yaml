@@ -17,3 +17,15 @@ metadata:
 provisioner: kubernetes.io/gce-pd
 parameters:
   type: pd-ssd
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: datadir
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: fast
