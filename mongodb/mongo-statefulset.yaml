@@ -23,7 +23,7 @@ spec:
     targetPort: 27017
   clusterIP: None
   selector:
-  - role: mongo
+    role: mongo
 ---
 apiVersion: apps/v1beta1
 kind: StatefulSet
@@ -31,7 +31,7 @@ metadata:
   name: mongo
 spec:
   serviceName: "mongo"
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -43,29 +43,11 @@ spec:
         - name: mongo
           image: mongo
           command:
-            - /bin/sh
-            - -c
-            - >
-              if [ -f /data/db/admin-user.lock ]; then
-                mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1;
-              else
-                mongod --auth;
-              fi;
-            lifecycle:
-              postStart:
-                exec:
-                  command:
-                  - /bin/sh
-                  - -c
-                  - >
-                    if [ ! -f /data/db/admin-user.lock ]; then
-                      sleep 5;
-                      touch /data/db/admin-user.lock
-                      if [ "$HOSTNAME" = "mongo-0" ]; then
-                        mongo --eval 'db = db.getSiblingDB("admin"); db.createUser({ user: "admin", pwd: "password", roles: [{ role: "root", db: "admin" }]});';
-                      fi;
-                      mongod --shutdown;
-                    fi;
+            - mongod
+            - "--replSet"
+            - rs0
+            - "--smallfiles"
+            - "--noprealloc"
           ports:
             - containerPort: 27017
           volumeMounts:
@@ -76,12 +58,6 @@ spec:
           env:
             - name: MONGO_SIDECAR_POD_LABELS
               value: "role=mongo,environment=test"
-            - name: MONGODB_USERNAME
-              value: admin
-            - name: MONGODB_PASSWORD
-              value: password
-            - name: MONGODB_DATABASE
-              value: admin
   volumeClaimTemplates:
   - metadata:
       name: mongo-persistent-storage
@@ -91,4 +67,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: 100Gi
