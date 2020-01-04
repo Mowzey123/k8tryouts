@@ -41,7 +41,7 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /data/db
-          name: mongo-persistent-storage
+          name: local-storage
       - env:
         - name: MONGO_SIDECAR_POD_LABELS
           value: role=mongo,environment=test
