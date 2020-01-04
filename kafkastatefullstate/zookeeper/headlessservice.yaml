@@ -15,5 +15,5 @@ spec:
       targetPort: 3888
     clusterIP: None
     selector:
-    role: zk-svc
+       role: zk-svc
 ---
