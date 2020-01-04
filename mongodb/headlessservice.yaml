@@ -7,9 +7,9 @@ metadata:
     name: mongo
 spec:
     ports:
-    -name : mongoport
-       port: 27017
-       targetPort: 27017
+    - name : mongoport
+      port: 27017
+      targetPort: 27017
     clusterIP: None
     selector:
     role: mongo
