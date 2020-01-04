@@ -1,144 +1,113 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  creationTimestamp: null
-  labels:
-    app: zk
   name: zk
 spec:
-  podManagementPolicy: OrderedReady
-  replicas: 1
-  revisionHistoryLimit: 10
-  selector:
-    matchLabels:
-      app: zk
   serviceName: zk-svc
+  replicas: 1
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: zk
     spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - zk
-            topologyKey: kubernetes.io/hostname
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values: 
+                    - zk
+              topologyKey: "kubernetes.io/hostname"
       containers:
-      - command:
-        - sh
-        - -c
-        - zkGenConfig.sh && zkServer.sh start-foreground
+      - name: k8szk
+        imagePullPolicy: Always
+        image: gcr.io/google_samples/k8szk:v3
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: server
+        - containerPort: 3888
+          name: leader-election
         env:
-        - name: ZK_REPLICAS
+        - name : ZK_REPLICAS
           value: "3"
-        - name: ZK_HEAP_SIZE
+        - name : ZK_HEAP_SIZE
           valueFrom:
             configMapKeyRef:
-              key: jvm.heap
-              name: zk-cm
-        - name: ZK_TICK_TIME
+                name: zk-cm
+                key: jvm.heap
+        - name : ZK_TICK_TIME
           valueFrom:
             configMapKeyRef:
-              key: tick
-              name: zk-cm
-        - name: ZK_INIT_LIMIT
+                name: zk-cm
+                key: tick
+        - name : ZK_INIT_LIMIT
           valueFrom:
             configMapKeyRef:
-              key: init
-              name: zk-cm
-        - name: ZK_SYNC_LIMIT
+                name: zk-cm
+                key: init
+        - name : ZK_SYNC_LIMIT
           valueFrom:
             configMapKeyRef:
-              key: tick
-              name: zk-cm
-        - name: ZK_MAX_CLIENT_CNXNS
+                name: zk-cm
+                key: tick
+        - name : ZK_MAX_CLIENT_CNXNS
           valueFrom:
             configMapKeyRef:
-              key: client.cnxns
-              name: zk-cm
+                name: zk-cm
+                key: client.cnxns
         - name: ZK_SNAP_RETAIN_COUNT
           valueFrom:
             configMapKeyRef:
-              key: snap.retain
-              name: zk-cm
+                name: zk-cm
+                key: snap.retain
         - name: ZK_PURGE_INTERVAL
           valueFrom:
             configMapKeyRef:
-              key: purge.interval
-              name: zk-cm
+                name: zk-cm
+                key: purge.interval
         - name: ZK_CLIENT_PORT
           value: "2181"
         - name: ZK_SERVER_PORT
           value: "2888"
         - name: ZK_ELECTION_PORT
           value: "3888"
-        image: gcr.io/google_samples/k8szk:v3
-        imagePullPolicy: Always
-        livenessProbe:
-          exec:
-            command:
-            - zkOk.sh
-          failureThreshold: 3
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        name: k8szk
-        ports:
-        - containerPort: 2181
-          name: client
-          protocol: TCP
-        - containerPort: 2888
-          name: server
-          protocol: TCP
-        - containerPort: 3888
-          name: leader-election
-          protocol: TCP
+        command:
+        - sh
+        - -c
+        - zkGenConfig.sh && zkServer.sh start-foreground
         readinessProbe:
           exec:
             command:
-            - zkOk.sh
-          failureThreshold: 3
+            - "zkOk.sh"
           initialDelaySeconds: 10
-          periodSeconds: 10
-          successThreshold: 1
           timeoutSeconds: 5
-        resources:
-          requests:
-            cpu: 500m
-            memory: 2Gi
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
+        livenessProbe:
+          exec:
+            command:
+            - "zkOk.sh"
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
         volumeMounts:
-        - mountPath: /var/lib/zookeeper
-          name: datadir
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
+        - name: datadir
+          mountPath: /var/lib/zookeeper
       securityContext:
-        fsGroup: 1000
         runAsUser: 1000
-      terminationGracePeriodSeconds: 30
-  updateStrategy:
-    type: OnDelete
+        fsGroup: 1000
   volumeClaimTemplates:
   - metadata:
-      creationTimestamp: null
       name: datadir
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "fast"
     spec:
-      accessModes:
-      - ReadWriteOnce
+      accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
           storage: 1Gi
-      volumeMode: Filesystem
-    status:
-      phase: Pending
-status:
-  replicas: 0
