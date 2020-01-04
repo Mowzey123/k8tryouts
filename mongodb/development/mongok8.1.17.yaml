@@ -6,7 +6,6 @@ metadata:
     environment: test
     role: mongo
   name: mongo
-  namespace: dev
 spec:
   podManagementPolicy: OrderedReady
   replicas: 1
