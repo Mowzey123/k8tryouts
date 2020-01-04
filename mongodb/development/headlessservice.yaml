@@ -9,7 +9,7 @@ spec:
     ports:
     - name : mongoport
       port: 27017
-      targetPort: 27017
+      targetPort: 9376
     # clusterIP: None
     type: NodePort
     selector:
