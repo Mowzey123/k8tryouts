@@ -3,7 +3,7 @@ kind: Service
 metadata:
     name: kafka-svc
     labels:
-    app: kafka
+    name: kafka
 spec:
     ports:
     - name: server
@@ -11,4 +11,4 @@ spec:
       targetPort: 9093
     clusterIP: None
     selector:
-    app: kafka
+        role: kafka-svc
