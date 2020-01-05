@@ -25,6 +25,7 @@ spec:
       containers:
       - command:
         - mongod
+        - "--bind_ip", "0.0.0.0"
         image: mongo:4
         imagePullPolicy: Always
         name: mongo
