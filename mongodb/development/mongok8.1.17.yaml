@@ -29,7 +29,7 @@ spec:
         - rs0
         - --smallfiles
         - --noprealloc
-        image: mongo:3.4.9
+        image: mongo:3.4
         imagePullPolicy: Always
         name: mongo
         ports:
