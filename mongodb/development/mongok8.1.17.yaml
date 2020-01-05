@@ -27,7 +27,6 @@ spec:
         - mongod
         - --replSet
         - rs0
-        - --smallfiles
         - --noprealloc
         image: mongo:4
         imagePullPolicy: Always
