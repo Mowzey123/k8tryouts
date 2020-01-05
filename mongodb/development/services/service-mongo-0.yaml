@@ -4,7 +4,7 @@ metadata:
   name: mongo-0
 spec:
   type: LoadBalancer
-  externalTrafficPolicy: Local
+#   externalTrafficPolicy: Local
   selector:
     statefulset.kubernetes.io/pod-name: mongo-0
   ports:
