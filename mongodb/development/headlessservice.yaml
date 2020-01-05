@@ -7,9 +7,9 @@ metadata:
     name: mongo
 spec:
     ports:
-    - protocol: TCP
+    - name : mongoport
       port: 27017
-      targetPort: 9376
+      nodePort: 30011
     # clusterIP: None
     type: NodePort
     selector:
