@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: mongo-0
 spec:
-  type: LoadBalancer
-#   externalTrafficPolicy: Local
+  type: NodePort
   selector:
     statefulset.kubernetes.io/pod-name: mongo-0
   ports:
   - protocol: TCP
     port: 27017
+    nodePort: 30036
     targetPort: 27017
