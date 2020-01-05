@@ -1,90 +1,74 @@
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: securemongo
-    labels:
-    name: securemongo
-spec:
-    ports:
-    - port: 27017
-    targetPort: 27017
-    clusterIP: None
-    selector:
-    role: securemongo
----
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-    name: securemongo
+  name: securemongo
 spec:
-    serviceName: "securemongo"
-    replicas: 1
-    template:
+  serviceName: "securemongo"
+  replicas: 1
+  template:
     metadata:
-        labels:
+      labels:
         role: securemongo
-        environment: test
     spec:
-        terminationGracePeriodSeconds: 10
-        containers:
+      terminationGracePeriodSeconds: 10
+      containers:
         - name: mongo
-            image: mongo:3.4.9
-            command:
-            - /bin/sh
-            - -c
-            - >
+          image: mongo:3.4.9
+          command:
+          - /bin/sh
+          - -c
+          - >
             if [ -f /data/db/admin-user.lock ]; then
-                mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1;
+              mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1;
             else
-                mongod --auth;
+              mongod --auth;
             fi;
-            lifecycle:
+          lifecycle:
             postStart:
-                exec:
+              exec:
                 command:
                 - /bin/sh
                 - -c
                 - >
-                    if [ ! -f /data/db/admin-user.lock ]; then
+                  if [ ! -f /data/db/admin-user.lock ]; then
                     sleep 5;
                     touch /data/db/admin-user.lock
                     if [ "$HOSTNAME" = "mongo-0" ]; then
-                        mongo --eval 'db = db.getSiblingDB("admin"); db.createUser({ user: "admin", pwd: "password", roles: [{ role: "root", db: "admin" }]});';
+                      mongo --eval 'db = db.getSiblingDB("admin"); db.createUser({ user: "admin", pwd: "password", roles: [{ role: "root", db: "admin" }]});';
                     fi;
                     mongod --shutdown;
-                    fi;
-            ports:
+                  fi;
+          ports:
             - containerPort: 27017
-            volumeMounts:
+          volumeMounts:
             - name: mongo-key
-                mountPath: "/etc/secrets-volume"
-                readOnly: true
-            - name: mongo-persistent-storage
-                mountPath: /data/db
+              mountPath: "/etc/secrets-volume"
+              readOnly: true
+            - name: local-storage
+              mountPath: /data/db/secure
         - name: mongo-sidecar
-            image: cvallance/mongo-k8s-sidecar
-            env:
+          image: cvallance/mongo-k8s-sidecar
+          env:
             - name: MONGO_SIDECAR_POD_LABELS
-                value: "role=mongo,environment=test"
+              value: "role=mongo,environment=test"
             - name: MONGODB_USERNAME
-                value: admin
+              value: admin
             - name: MONGODB_PASSWORD
-                value: password
+              value: password
             - name: MONGODB_DATABASE
-                value: admin
-        volumes:
-        - name: mongo-key
+              value: admin
+      volumes:
+      - name: mongo-key
         secret:
-            defaultMode: 0400
-            secretName: mongo-key
-    volumeClaimTemplates:
-    - metadata:
-        name: mongo-persistent-storage
-        annotations:
+          defaultMode: 0400
+          secretName: mongo-key
+  volumeClaimTemplates:
+  - metadata:
+      name: local-storage
+      annotations:
         volume.beta.kubernetes.io/storage-class: "manual"
     spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
         requests:
-            storage: 1Gi
+          storage: 1Gi
