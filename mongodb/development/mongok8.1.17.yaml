@@ -25,9 +25,6 @@ spec:
       containers:
       - command:
         - mongod
-        - --replSet
-        - rs0
-        - --noprealloc
         image: mongo:4
         imagePullPolicy: Always
         name: mongo
