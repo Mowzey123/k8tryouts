@@ -19,9 +19,9 @@ spec:
           - -c
           - >
             if [ -f /data/db/admin-user.lock ]; then
-              mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1;
+              mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1 --bind_ip 0.0.0.0;
             else
-              mongod --auth;
+              mongod --auth --bind_ip 0.0.0.0;
             fi;
           lifecycle:
             postStart:
