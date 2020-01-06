@@ -21,6 +21,22 @@ spec:
   hostPath:
     path: "/mnt/data"
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-secure-mongo-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  hostPath:
+    path: "/mnt/data"
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
