@@ -58,7 +58,7 @@ spec:
           name: mongo-key
           readOnly: true
         - mountPath: /data/db/secure
-          name: local-storage
+          name: local-secure-mongo-storage
       - env:
         - name: MONGO_SIDECAR_POD_LABELS
           value: role=mongo,environment=test
@@ -91,10 +91,11 @@ spec:
       annotations:
         volume.beta.kubernetes.io/storage-class: manual
       creationTimestamp: null
-      name: local-storage
+      name: local-secure-mongo-storage
     spec:
       accessModes:
-      - ReadWriteOnce
+        - ReadWriteOnce
+        - ReadOnlyMany
       resources:
         requests:
           storage: 1Gi

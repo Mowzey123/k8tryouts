@@ -37,8 +37,8 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /data/db
-          name: local-storage
+        - mountPath: /data/db/unsecure
+          name: local-mongo-storage
       - env:
         - name: MONGO_SIDECAR_POD_LABELS
           value: role=mongo,environment=test
@@ -60,7 +60,7 @@ spec:
       annotations:
         volume.beta.kubernetes.io/storage-class: manual
       creationTimestamp: null
-      name: local-storage
+      name: local-mongo-storage
     spec:
       accessModes:
       - ReadWriteOnce
