@@ -57,7 +57,7 @@ spec:
         - mountPath: /etc/secrets-volume
           name: mongo-key
           readOnly: true
-        - mountPath: /data/db/secure
+        - mountPath: /data/db
           name: local-secure-mongo-storage
       - env:
         - name: MONGO_SIDECAR_POD_LABELS
