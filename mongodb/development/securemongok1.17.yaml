@@ -25,9 +25,9 @@ spec:
         - -c
         - |
           if [ -f /data/db/admin-user.lock ]; then
-            mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1 --bind_ip 0.0.0.0;
+            mongod --replSet rs0 --clusterAuthMode keyFile --keyFile /etc/secrets-volume/mongodb-keyfile --setParameter authenticationMechanisms=SCRAM-SHA-1;
           else
-            mongod --auth --bind_ip 0.0.0.0;
+            mongod --auth;
           fi;
         image: mongo:4
         imagePullPolicy: IfNotPresent
