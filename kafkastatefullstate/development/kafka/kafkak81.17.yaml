@@ -119,8 +119,8 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /var/lib/kafka
-          name: my-retain-ssd-storage
+        - mountPath: /mnt/data/kafka
+          name: local-kafka-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -133,12 +133,13 @@ spec:
   volumeClaimTemplates:
   - metadata:
       annotations:
-        volume.beta.kubernetes.io/storage-class: fast
+        volume.beta.kubernetes.io/storage-class: manual
       creationTimestamp: null
-      name: my-retain-ssd-storage
+      name: local-kafka-storage
     spec:
       accessModes:
       - ReadWriteOnce
+      - ReadOnlyMany
       resources:
         requests:
           storage: 10Gi
