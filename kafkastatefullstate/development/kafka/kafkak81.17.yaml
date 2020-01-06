@@ -142,7 +142,7 @@ spec:
       - ReadOnlyMany
       resources:
         requests:
-          storage: 10Gi
+          storage: 1Gi
       volumeMode: Filesystem
     status:
       phase: Pending

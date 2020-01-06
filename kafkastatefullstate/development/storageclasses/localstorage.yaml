@@ -14,7 +14,7 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 6Gi
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
     - ReadOnlyMany
