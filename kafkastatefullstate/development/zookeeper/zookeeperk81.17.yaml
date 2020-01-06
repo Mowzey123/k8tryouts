@@ -116,7 +116,7 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /var/lib/zookeeper
+        - mountPath: /data/zookeeper
           name: local-zookeeper-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
