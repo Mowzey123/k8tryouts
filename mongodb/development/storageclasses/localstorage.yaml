@@ -8,13 +8,13 @@ volumeBindingMode: WaitForFirstConsumer
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: localvolume
+  name: local-mongo-volume
   labels:
     type: local
 spec:
   storageClassName: manual
   capacity:
-    storage: 5Gi
+    storage: 3Gi
   accessModes:
     - ReadWriteOnce
     - ReadOnlyMany
@@ -24,7 +24,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: local-storage
+  name: local-mongo-storage
 spec:
   accessModes:
     - ReadWriteOnce
