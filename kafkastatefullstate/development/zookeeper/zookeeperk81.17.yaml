@@ -36,7 +36,7 @@ spec:
         - zkGenConfig.sh && zkServer.sh start-foreground
         env:
         - name: ZK_REPLICAS
-          value: "3"
+          value: "1"
         - name: ZK_HEAP_SIZE
           valueFrom:
             configMapKeyRef:
