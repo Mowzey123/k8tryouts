@@ -7,9 +7,6 @@ metadata:
     name: zk-svc
 spec:
     ports:
-    - name: client
-      port: 2181
-      targetPort: 2181
     - name: server
       port: 2888
       targetPort: 2888
@@ -18,5 +15,5 @@ spec:
       targetPort: 3888
     clusterIP: None
     selector:
-       role: zk-svc
+      app: zk-svc
 ---
