@@ -119,7 +119,7 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /mnt/data/kafka
+        - mountPath: /var/lib/kafka
           name: local-kafka-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
