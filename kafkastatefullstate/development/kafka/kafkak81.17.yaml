@@ -41,14 +41,14 @@ spec:
                 - kafka
             topologyKey: kubernetes.io/hostname
       containers:
+      - name: k8skafka
+        image: gcr.io/google_samples/k8skafka:v1
+        imagePullPolicy: Always
         env:
         - name: KAFKA_HEAP_OPTS
           value: -Xmx512M -Xms512M
         - name: KAFKA_OPTS
           value: -Dlogging.level=INFO
-        image: gcr.io/google_samples/k8skafka:v1
-        imagePullPolicy: Always
-        name: k8skafka
         ports:
         - containerPort: 9093
           name: server
