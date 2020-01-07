@@ -19,7 +19,7 @@ spec:
     - ReadWriteOnce
     - ReadOnlyMany
   hostPath:
-    path: "/var/lib/kafka"
+    path: "/mnt/data/kafka"
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -35,7 +35,7 @@ spec:
     - ReadWriteOnce
     - ReadOnlyMany
   hostPath:
-    path: "/var/lib/zookeeper"
+    path: "/mnt/data/zookeeper"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
