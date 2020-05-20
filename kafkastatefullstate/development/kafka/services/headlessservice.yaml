@@ -8,7 +8,8 @@ spec:
     ports:
     - name: server
       port: 9093
+      nodePort: 30032
       targetPort: 9093
-    clusterIP: None
+    type: NodePort
     selector:
-        role: kafka-svc
+      app: kafka
